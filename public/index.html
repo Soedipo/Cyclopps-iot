@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- <script type="module" src='./scripts/index.js'></script> -->
+  <script type="module" src='./scripts/firebase.js'></script>
+</head>
+
+<body>
+  <section id="navbar" class="border container">
+    <div class="background-grey">
+      <div class="top-image">
+        <img src="assets/cyclopps.png" alt="cycloppsLogo" height="72rem" width="auto">
+      </div>
+    </div>
+  </section>
+  <section id="content" class="border container">
+    <div class="block border">
+      <div class="speed-box border ">
+        <div class="speed-content">Speed</div>
+        <div id="speedData" class="speed-content">0 km/H</div>
+      </div>
+      <div class="date-clock-box border flex">
+        <div class="date-clock flex flex-dir-col flex-1 border">
+          <div class="cyclo-content">Date</div>
+          <div id="date" class="cyclo-content">0</div>
+        </div>
+        <div class="date-clock flex flex-dir-col flex-1 border">
+          <div class="cyclo-content">Clock</div>
+          <div id="clock" class="cyclo-content"></div>
+        </div>
+      </div>
+      <div class="misc-box border grid grid-col-2">
+        <div class="misc flex flex-dir-col border">
+          <div class="cyclo-content">Distance (Km)</div>
+          <div id="distanceData" class="cyclo-content">0</div>
+        </div>
+        <div class="misc flex flex-dir-col border">
+          <div class="cyclo-content">Average Speed (Km/H)</div>
+          <div id="avgSpeedData" class="cyclo-content">0</div>
+        </div>
+        <div class="misc flex flex-dir-col border">
+          <div class="cyclo-content">Time</div>
+          <div id="timeData" class="cyclo-content">00 : 00 : 00 : 00</div>
+        </div>
+        <div class="misc flex flex-dir-col border">
+          <div class="cyclo-content">Max Speed</div>
+          <div id="maxSpeedData" class="cyclo-content">0</div>
+        </div>
+      </div>
+  </section>
+
+  <section id="button-content" class="container">
+    <div class="button-box flex justify-center border">
+      <button id="button-start">Start</button>
+      <button id="button-stop">Stop</button>
+      <button id="button-reset">Reset</button>
+      <button id="button-save">Save</button>
+    </div>
+  </section>
+  
+  <section id="history" class="border">
+    <div class="container border">
+      <div class="history border">
+        HISTORY
+      </div>
+    </div>
+    <div id="history-list" class="container"></div>
+    <button id="button-history-reset" class="container flex justify-center">Reset History</button>
+  </section>
+  <!-- <div id="enterDetails">
+      <h1>Enter details</h1>
+      
+      <h4>ID</h4>
+      <input id="enterID" type="text">
+      
+      <h4>Name</h4>
+    <input id="enterName" type="text">
+
+    <h4>Age</h4>
+    <input id="enterAge" type="number"> <br><br>
+
+    <button id="insert">INSERT</button>
+    <button id="update">UPDATE</button>
+    <button id="remove">REMOVE</button> <br><br>
+  </div>
+
+  <div id="findDetails">
+    <h1>Find by ID</h1>
+    <h4>ID</h4>
+    <input id="findID" type="text"> <br><br>
+    <button id="find">FIND</button>
+    <h3 id="findName" type="text"></h3>
+    <h3 id="findAge" type="number"></h3> <br><br>
+  </div> -->
+</body>
+
+</html>
