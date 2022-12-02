@@ -9,9 +9,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebas
 import {
   getDatabase,
   ref,
-  get,
-  set,
-  child,
   update,
   remove,
   onValue,
@@ -34,7 +31,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-
 // History variable
 var distanceLog = 0;
 var maxSpeedLog = 0;
@@ -46,10 +42,12 @@ var dateLog = "";
 let saveButton = document.getElementById("button-save");
 
 // Stopwatch content
+const historyList = document.getElementById("history-list");
 let startBtn = document.getElementById("button-start");
 let stopBtn = document.getElementById("button-stop");
 let resetBtn = document.getElementById("button-reset");
 let historyResetBtn = document.getElementById("button-history-reset");
+let setDiameterBtn = document.getElementById("button-set-diameter");
 
 let startStatus = false;
 let currentDate = "";
@@ -58,6 +56,7 @@ let minute = 0;
 let second = 0;
 let count = 0;
 let timer = false;
+let secondCounting = 0;
 
 let hour_string = "";
 let minute_string = "";
@@ -65,6 +64,9 @@ let second_string = "";
 let count_string = "";
 
 let timeCount = "";
+
+let child_data = [];
+let child_key = [];
 
 realtimeData();
 
@@ -95,13 +97,13 @@ function realtimeData() {
   const dbref = ref(db);
   onValue(ref(db, "realtimeData/"), (snapshot) => {
     document.getElementById("speedData").innerHTML =
-      snapshot.val().speed + " km/H";
+      snapshot.val().speed.toFixed(2) + " km/h";
     document.getElementById("avgSpeedData").innerHTML =
-      snapshot.val().averageSpeed + " km/H";
+      snapshot.val().averageSpeed.toFixed(2) + " km/h";
     document.getElementById("maxSpeedData").innerHTML =
-      snapshot.val().maxSpeed + " km/H";
+      snapshot.val().maxSpeed.toFixed(2) + " km/h";
     document.getElementById("distanceData").innerHTML =
-      snapshot.val().distance + " m";
+      snapshot.val().distance.toFixed(2) + " km";
 
     distanceLog = snapshot.val().distance;
     maxSpeedLog = snapshot.val().maxSpeed;
@@ -110,15 +112,13 @@ function realtimeData() {
 }
 
 function resetHistory() {
-  for(let uid of child_key){
+  for (let uid of child_key) {
     remove(ref(db, "cyclingLog/" + uid));
   }
   child_key = [];
   child_data = [];
   historyList.innerHTML = ``;
 }
-
-const historyList = document.getElementById("history-list");
 
 function convertObjectsToArrayOfObjects(logList) {
   const filteredData = [];
@@ -128,17 +128,6 @@ function convertObjectsToArrayOfObjects(logList) {
   return filteredData;
 }
 
-// function elList(logList) {
-//   const familyData = convertObjectsToArrayOfObjects(logList);
-//   historyList.innerHTML = `
-//       ${familyData.map((person) => {
-//         return `
-//             <h1>name: ${person.elapsedTime}</h1>
-//             <h2>age: ${person.startTime}</h2>
-//           `;
-//       })}
-//   `;
-// }
 function elList() {
   historyList.innerHTML = `
       ${child_data.map((cyclingData) => {
@@ -155,9 +144,6 @@ function elList() {
   `;
 }
 
-let child_data = [];
-let child_key = [];
-
 function getListData() {
   onValue(ref(db, "cyclingLog/"), (snapshot) => {
     snapshot.forEach((childSnapshot) => {
@@ -166,11 +152,6 @@ function getListData() {
       child_data.push(childData);
       child_key.push(childKey);
       elList();
-      console.log(childData);
-      console.log(childKey);
-      console.log(child_data);
-      console.log(child_key);
-      console.log(convertObjectsToArrayOfObjects(childData));
     });
     child_data = [];
   });
@@ -179,6 +160,13 @@ function getListData() {
 getListData();
 
 saveButton.addEventListener("click", saveData);
+setDiameterBtn.addEventListener("click", function () {
+  update(ref(db, "realtimeData/"), {
+    diameter: parseFloat(document.getElementById('inputDiameter').value),
+  }).catch((error) => {
+    alert(error);
+  });
+});
 
 /* get current clock time */
 function clock() {
@@ -231,7 +219,6 @@ stopBtn.addEventListener("click", function () {
 
 historyResetBtn.addEventListener("click", function () {
   resetHistory();
-  console.log(child_key);
 });
 
 resetBtn.addEventListener("click", function () {
@@ -241,6 +228,7 @@ resetBtn.addEventListener("click", function () {
   minute = 0;
   second = 0;
   count = 0;
+  secondCounting = 0;
   startTimeLog = "";
   dateLog = "";
   document.getElementById("timeData").innerHTML = "00 : 00 : 00 : 00";
@@ -249,10 +237,19 @@ resetBtn.addEventListener("click", function () {
     averageSpeed: 0,
     distance: 0,
     maxSpeed: 0,
+    elapsedTime: 0, // in milisecond
   }).catch((error) => {
     alert(error);
   });
 });
+
+function secondCounter() {
+  update(ref(db, "realtimeData/"), {
+    elapsedTime: secondCounting, // in milisecond
+  }).catch((error) => {
+    alert(error);
+  });
+}
 
 function stopWatch() {
   if (timer) {
@@ -260,16 +257,19 @@ function stopWatch() {
 
     if (count == 100) {
       second++;
+      secondCounting++;
       count = 0;
     }
 
     if (second == 60) {
       minute++;
+      secondCounting++;
       second = 0;
     }
 
     if (minute == 60) {
       hour++;
+      secondCounting++;
       minute = 0;
       second = 0;
     }
@@ -304,6 +304,8 @@ function stopWatch() {
       hrString + " : " + minString + " : " + secString + " : " + countString;
     timeCountLog =
       hrString + " : " + minString + " : " + secString + " : " + countString;
+
+    secondCounter();
     setTimeout(stopWatch, 10);
   }
 }

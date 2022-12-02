@@ -19,6 +19,7 @@
       </div>
     </div>
   </section>
+
   <section id="content" class="border container">
     <div class="block border">
       <div class="speed-box border ">
@@ -57,13 +58,18 @@
 
   <section id="button-content" class="container">
     <div class="button-box flex justify-center border">
-      <button id="button-start">Start</button>
-      <button id="button-stop">Stop</button>
-      <button id="button-reset">Reset</button>
-      <button id="button-save">Save</button>
+      <button id="button-start" class="button-stopwatch">Start</button>
+      <button id="button-stop" class="button-stopwatch">Stop</button>
+      <button id="button-reset" class="button-stopwatch">Reset</button>
+      <button id="button-save" class="button-stopwatch">Save</button>
     </div>
   </section>
-  
+
+  <div id="setDiameter" class="container flex justify-center border">
+    <input id="inputDiameter" type="number"> <br><br>
+    <button id="button-set-diameter">Set</button>
+  </div>
+
   <section id="history" class="border">
     <div class="container border">
       <div class="history border">
@@ -73,31 +79,6 @@
     <div id="history-list" class="container"></div>
     <button id="button-history-reset" class="container flex justify-center">Reset History</button>
   </section>
-  <!-- <div id="enterDetails">
-      <h1>Enter details</h1>
-      
-      <h4>ID</h4>
-      <input id="enterID" type="text">
-      
-      <h4>Name</h4>
-    <input id="enterName" type="text">
-
-    <h4>Age</h4>
-    <input id="enterAge" type="number"> <br><br>
-
-    <button id="insert">INSERT</button>
-    <button id="update">UPDATE</button>
-    <button id="remove">REMOVE</button> <br><br>
-  </div>
-
-  <div id="findDetails">
-    <h1>Find by ID</h1>
-    <h4>ID</h4>
-    <input id="findID" type="text"> <br><br>
-    <button id="find">FIND</button>
-    <h3 id="findName" type="text"></h3>
-    <h3 id="findAge" type="number"></h3> <br><br>
-  </div> -->
 </body>
 
 </html>

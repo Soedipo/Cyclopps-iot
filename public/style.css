@@ -81,7 +81,7 @@ div {
     justify-content: center;
 }
 
-button {
+.button-stopwatch {
     transition: 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);;
     background: #3b3b3b;
     color: white;
@@ -96,7 +96,7 @@ button {
     outline: none;
 }
 
-button:hover {
+.button-stopwatch:hover {
     transition: 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     background: #0f0f0f;
     border: solid 1px white;
