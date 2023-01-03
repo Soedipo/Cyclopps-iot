@@ -3,6 +3,7 @@
     "rules": "database.rules.json"
   },
   "hosting": {
+    "site": "cyclopps-proj",
     "public": "public",
     "ignore": [
       "firebase.json",
